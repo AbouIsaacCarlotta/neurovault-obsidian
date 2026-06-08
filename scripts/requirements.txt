@@ -1,0 +1,5 @@
+python-dotenv
+requests
+pydub
+youtube-transcript-api
+crawl4ai

@@ -1,0 +1,236 @@
+{
+  "main": {
+    "id": "7f526437bd9aedfd",
+    "type": "split",
+    "children": [
+      {
+        "id": "8a201c26b144325f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5a7e27cf8c254216",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Projects/Ongoing/TBC - The Brahmi Company.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TBC - The Brahmi Company"
+            }
+          },
+          {
+            "id": "9cd143ce0ddf423c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Tasks/Task Dashboard.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Task Dashboard"
+            }
+          },
+          {
+            "id": "8438952ce1fb2c96",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Tasks/Inbox.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Inbox"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5e6cafbb6e57a506",
+    "type": "mobile-drawer",
+    "children": [
+      {
+        "id": "8b03ceb5e18002bd",
+        "type": "leaf",
+        "state": {
+          "type": "file-explorer",
+          "state": {
+            "sortOrder": "alphabetical",
+            "autoReveal": false
+          },
+          "icon": "lucide-folder-closed",
+          "title": "Files"
+        }
+      },
+      {
+        "id": "bd8ad10f82dbad2b",
+        "type": "leaf",
+        "state": {
+          "type": "search",
+          "state": {
+            "query": "",
+            "matchingCase": false,
+            "explainSearch": false,
+            "collapseAll": false,
+            "extraContext": false,
+            "sortOrder": "alphabetical"
+          },
+          "icon": "lucide-search",
+          "title": "Search"
+        }
+      },
+      {
+        "id": "7efd39a1bfbf8f5c",
+        "type": "leaf",
+        "state": {
+          "type": "tag",
+          "state": {
+            "sortOrder": "frequency",
+            "useHierarchy": true,
+            "showSearch": false,
+            "searchQuery": ""
+          },
+          "icon": "lucide-tags",
+          "title": "Tags"
+        }
+      },
+      {
+        "id": "56a2ec47f2cc228d",
+        "type": "leaf",
+        "state": {
+          "type": "all-properties",
+          "state": {
+            "sortOrder": "frequency",
+            "showSearch": false,
+            "searchQuery": ""
+          },
+          "icon": "lucide-archive",
+          "title": "All properties"
+        }
+      },
+      {
+        "id": "af29c9687f571377",
+        "type": "leaf",
+        "state": {
+          "type": "bookmarks",
+          "state": {},
+          "icon": "lucide-bookmark",
+          "title": "Bookmarks"
+        }
+      }
+    ],
+    "currentTab": 0
+  },
+  "right": {
+    "id": "f28e615ef7870d90",
+    "type": "mobile-drawer",
+    "children": [
+      {
+        "id": "add7f73b44f474a4",
+        "type": "leaf",
+        "state": {
+          "type": "backlink",
+          "state": {
+            "file": "Knowledge/AI/Claude.md",
+            "collapseAll": false,
+            "extraContext": false,
+            "sortOrder": "alphabetical",
+            "showSearch": false,
+            "searchQuery": "",
+            "backlinkCollapsed": false,
+            "unlinkedCollapsed": true
+          },
+          "icon": "links-coming-in",
+          "title": "Rétroliens"
+        }
+      },
+      {
+        "id": "529126b4244f0ad0",
+        "type": "leaf",
+        "state": {
+          "type": "outgoing-link",
+          "state": {
+            "file": "Projects/Ongoing/TBC - The Brahmi Company.md",
+            "linksCollapsed": false,
+            "unlinkedCollapsed": true
+          },
+          "icon": "links-going-out",
+          "title": "Outgoing links"
+        }
+      },
+      {
+        "id": "0e8c835444db7444",
+        "type": "leaf",
+        "state": {
+          "type": "outline",
+          "state": {
+            "file": "Ideas/Trip advisor, web of trust, Google review for agent.md",
+            "followCursor": false,
+            "showSearch": false,
+            "searchQuery": ""
+          },
+          "icon": "lucide-list",
+          "title": "Outline"
+        }
+      }
+    ],
+    "currentTab": 2
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "8438952ce1fb2c96",
+  "lastOpenFiles": [
+    "Sport/Weekly review N09.md",
+    "Ideas/Trip advisor, web of trust, Google review for agent.md",
+    "Templates/Idea Template.md",
+    "Knowledge/2026.03.02-mckinsey-charges-500-k-for-this.md",
+    "Templates/Resource Template.md",
+    "Templates/Article Template.md",
+    "Attachments/PDFs/69f4e66c74c5b3fa05ce0fad_Agentic AI Report_V5.pdf",
+    "Attachments/PDFs/69a9cdb4adefcde9afc55adf_260305_Ultimate AI Buyers Guide_Final.pdf",
+    "Knowledge/3 Step System.md",
+    "Work/2022-05-16 Work - Sujets boulots.md",
+    "Work/2022-11-25 Feedback.md",
+    "Work/2022-12-16 Lemon.md",
+    "Work/2023-02-02 Gavetti.md",
+    "Work/2019-01-31 Work - Questions work.md",
+    "Work/2021-10-20 Work - Bernât.md",
+    "Work/2022-09-20 Work - Meeting with the CEOS.md",
+    "Work/2018-12-07 Work - DT.md",
+    "Work/2023-02-01 Danke für Ihre Zeit heute. Sie und Ihre Kollegen sind sehr wichtig….md",
+    "Work/2022-07-07 Work - Sustainability.md",
+    "Work/2023-03-18 Jo and Reb.md",
+    "Work/2021-06-08 Work - personal development.md",
+    "Work/2022-04-27 Work - OKR.md",
+    "Work/2023-03-06 Driver mode.md",
+    "Work/2022-08-17 Work - Culture.md",
+    "Work/2023-03-10 POSTER.md",
+    "Work/2022-11-25 TL réunion.md",
+    "Work/2022-03-25 Work - Head of.md",
+    "Sport.md",
+    "Archive",
+    "Projects/Ongoing/TBC",
+    "Work",
+    "Projects/Ongoing/Naïo",
+    "Knowledge/Networking"
+  ]
+}

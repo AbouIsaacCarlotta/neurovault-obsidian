@@ -1,0 +1,226 @@
+{
+  "main": {
+    "id": "834c0c20d717b71b",
+    "type": "split",
+    "children": [
+      {
+        "id": "0c5f88c195233fda",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ebf274d27a25ee01",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Ideas/Logging of Social media post and clustering.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Logging of Social media post and clustering"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "df7da107c38cc285",
+    "type": "split",
+    "children": [
+      {
+        "id": "f031df8f6f7afb25",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1b114ec7017df79d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "byModifiedTime",
+                "autoReveal": true
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "0209188f1eac1646",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "38c458306bf1a8d0",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "087b562a1358e8aa",
+    "type": "split",
+    "children": [
+      {
+        "id": "2e3e6beb99c1a8bc",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ed2dcaca08f8a285",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "a4b85484cc1f0258",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "f7208a742f6fa44c",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "a9ab21d63065aa4b",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "6aecb2cb516a4c80",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "ebf274d27a25ee01",
+  "lastOpenFiles": [
+    "Knowledge/raoul-pal-how-i-invest-in-crypto-raoul-pal-the-journey-man.md",
+    "Knowledge/the-exact-ai-skills-this-solo-founder-uses-to-build-5-apps-at-once-josh-pigford.md",
+    "Knowledge/Using AI to Predict Earnings via Upstream Suppliers.md",
+    "Knowledge/Digital Switzerland AI Playbook.md",
+    "Knowledge/The ONLY 10 Things That Matter For Weight Loss.md",
+    "Knowledge/the-ai-native-services-playbook.md",
+    "Knowledge/we-accidentally-built-a-second-codebase.md",
+    "Knowledge/your-ai-strategy-has-a-trust-problem-not-a-tooling-problem.md",
+    "Knowledge/the-startup-that-launched-itself.md",
+    "Knowledge/the-tableau-exodus-has-begun.md",
+    "Attachments/Youtube Transcripts",
+    "Attachments/untitled folder",
+    "Tasks/Inbox.md",
+    "Knowledge/how-anthropic-enables-self-service-data-analytics-with-claude.md",
+    "Knowledge/give-your-agent-its-own-computer.md",
+    "Knowledge/what-is-ai-governance-frameworks-principles-and-best-practices.md",
+    "Knowledge/why-software-automation-is-hard.md",
+    "Templates/Weekly Reflection Template.md",
+    "Attachments/PDFs/Global_AMC_Summit_2026_Final_Report.pdf",
+    "Projects/Productize Second Brain.md",
+    "Templates/Project Template.md",
+    "Templates/Idea Template.md",
+    "Attachments/Transcripts/the-next-100b-market-selling-to-ai-agents.txt",
+    "Attachments/Transcripts/the-exact-ai-skills-this-solo-founder-uses-to-build-5-apps-at-once-josh-pigford.txt",
+    "Attachments/Transcripts/raoul-pal-how-i-invest-in-crypto-raoul-pal-the-journey-man.txt",
+    "Attachments/Transcripts/google-s-biggest-ai-announcements-i-was-there.txt",
+    "Attachments/PDFs/Digital-Switzerland-AI-Playbook.pdf",
+    "Knowledge/an-executive-s-guide-to-implementing-ai.md",
+    "Knowledge/your-brain-is-about-to-need-a-gym.md",
+    "Knowledge/the-7-part-linkedin-growth-system-ben-meer-used-to-reach-840k-followers.md",
+    "Knowledge/after-automation.md",
+    "Knowledge/the-next-100b-market-selling-to-ai-agents.md",
+    "Knowledge/google-s-biggest-ai-announcements-i-was-there.md",
+    "Tag Dictionary.md",
+    "Attachments/Transcripts/the-next-2-years-will-change-everything.txt",
+    "Attachments/Transcripts/transcription.txt",
+    "Untitled.canvas",
+    "Untitled 1.canvas",
+    "2024-12-14 Drawing.png",
+    "2023-03-04 Image.jpeg"
+  ]
+}

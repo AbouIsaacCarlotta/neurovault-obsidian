@@ -3,7 +3,7 @@ import sys
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: doppler run -- python3 archivist.py <URL>")
+        print("Usage: python3 archivist.py <URL_OR_PATH>")
         sys.exit(1)
         
     target_url = sys.argv[1]
@@ -20,8 +20,11 @@ def main():
     elif "youtube.com" in target_url or "youtu.be" in target_url:
         print("🎥 Target identified as a YouTube Video! Firing up youtube_workflow.py...")
         os.system(f'{sys.executable} youtube_workflow.py "{target_url}"')
+    elif target_url.lower().endswith((".pdf", ".docx", ".pptx", ".md", ".txt")):
+        print("📄 Target identified as a local Document! Firing up document_workflow.py...")
+        os.system(f'{sys.executable} document_workflow.py "{target_url}"')
     else:
-        print("📄 Target identified as a standard URL! Firing up url_workflow.py...")
+        print("🌐 Target identified as a standard URL! Firing up url_workflow.py...")
         os.system(f'{sys.executable} url_workflow.py "{target_url}"')
 
 if __name__ == "__main__":

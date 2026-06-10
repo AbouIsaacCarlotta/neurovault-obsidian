@@ -9,7 +9,8 @@ This repository provides the "Empty Vault" structure (Folders, MOCs, Templates, 
 - **Dynamic MOCs (Maps of Content):** Dashboards for Knowledge, Work, Ideas, etc., powered by Dataview.
 - **AI Automations:** 
   - `podcast_workflow.py`: Download Apple Podcasts, transcribe via Whisper, and generate a structured note.
-  - `youtube_workflow.py`: Extract YouTube transcripts and summarize them.
+  - `youtube_workflow.py`: Extract YouTube transcripts and summarize them (no video download required).
+  - `document_workflow.py`: Parse local `.pdf`, `.docx`, and `.pptx` documents into clean Markdown summaries using Microsoft's MarkItDown.
   - `url_workflow.py`: Scrape web articles and summarize them into the vault.
   - `tag_audit.py`: Scan the vault to consolidate duplicate tags and enforce the Master Tag Dictionary.
 
@@ -66,6 +67,7 @@ Or run individual scripts:
 ```bash
 python podcast_workflow.py "https://podcasts.apple.com/..."
 python youtube_workflow.py "https://youtube.com/watch?v=..."
+python document_workflow.py "/Users/yourname/Desktop/Report.pdf"
 python tag_audit.py
 ```
 

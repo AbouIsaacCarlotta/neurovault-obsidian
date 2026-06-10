@@ -9,7 +9,6 @@ from youtube_transcript_api.formatters import TextFormatter
 from dotenv import load_dotenv
 
 load_dotenv()
-
 VAULT_PATH = os.environ.get("VAULT_ABSOLUTE_PATH", "")
 DICT_FILE = os.path.join(VAULT_PATH, "Tag Dictionary.md")
 KNOWLEDGE_DIR = os.path.join(VAULT_PATH, "Knowledge")
@@ -51,7 +50,9 @@ def load_dictionary():
 def call_llm_for_note(transcript_text, title, url, core_tags):
     api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
-        raise ValueError("OPENAI_API_KEY environment variable not found. Run via Doppler.")
+        raise ValueError("OPENAI_API_KEY environment variable not found. Check your .env file.")
+
+    current_date = datetime.now().strftime('%Y-%m-%d')
 
     prompt = f"""
 You are an expert analyst extracting knowledge for a personal Obsidian "Second Brain".
@@ -69,7 +70,7 @@ REQUIREMENTS:
 type: Transcript
 domain: Knowledge
 tags: [tag1, tag2]
-date_saved: {{current_date}}
+date_saved: {current_date}
 ---
 
 # 🎥 {title}
@@ -92,9 +93,6 @@ date_saved: {{current_date}}
 **Linked Concepts:** 
 [[Knowledge MOC]]
 """
-
-    current_date = datetime.now().strftime('%Y-%m-%d')
-    prompt = prompt.replace("{{current_date}}", current_date)
 
     print("🧠 OpenAI is reading the transcript and generating the note...")
     api_url = "https://api.openai.com/v1/chat/completions"
@@ -123,7 +121,7 @@ date_saved: {{current_date}}
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: doppler run -- python3 youtube_workflow.py <URL>")
+        print("Usage: python3 youtube_workflow.py <URL>")
         sys.exit(1)
         
     target_url = sys.argv[1]

@@ -25,8 +25,16 @@ This repository provides the "Empty Vault" structure (Folders, MOCs, Templates, 
 
 ### 2. Configure Your Vault
 1. Clone or download this repository to your local machine.
-2. Open Obsidian and select **"Open folder as vault"**. Choose the folder you just downloaded.
-3. Your vault is now ready!
+2. Open your terminal and navigate to the `scripts` folder:
+   ```bash
+   cd neurovault-obsidian/scripts
+   ```
+3. Run the interactive Setup Wizard to personalize your vault (it will generate your MOCs and Tag Dictionary):
+   ```bash
+   python setup_vault.py
+   ```
+4. Open Obsidian and select **"Open folder as vault"**. Choose the `neurovault-obsidian` folder.
+5. Your personalized vault is now ready!
 
 ### 3. Configure the Python Automations
 To use the AI automations, you need to configure your environment variables.

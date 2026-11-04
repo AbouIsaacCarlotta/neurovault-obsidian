@@ -1,0 +1,11 @@
+.DS_Store
+.env
+__pycache__/
+*.pyc
+*.pyo
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/plugins/neurovault
+Audio files/
+chunk_*.mp3
+/tmp/

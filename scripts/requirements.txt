@@ -4,3 +4,5 @@ pydub
 youtube-transcript-api
 crawl4ai
 markitdown[all]
+openai
+yt-dlp

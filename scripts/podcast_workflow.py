@@ -7,9 +7,18 @@ from urllib.parse import unquote
 from datetime import datetime
 from pydub import AudioSegment
 from dotenv import load_dotenv
+from cross_linker import find_related_notes, inject_related_section
 
 load_dotenv()
+
 VAULT_PATH = os.environ.get("VAULT_ABSOLUTE_PATH", "")
+DICT_FILE = os.path.join(VAULT_PATH, "Tag Dictionary.md")
+KNOWLEDGE_DIR = os.path.join(VAULT_PATH, "Knowledge")
+ATTACHMENTS_DIR = os.path.join(VAULT_PATH, "Attachments", "Podcasts Transcripts")
+
+BROWSER_HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+}
 
 # ==========================================
 # UTILS
@@ -22,7 +31,17 @@ def clean_for_match(text):
 def clean_for_filename(text):
     """Cleans text to make a valid filename (using dashes)."""
     clean_text = re.sub(r'[^a-zA-Z0-9]+', '-', text.lower())
-    return clean_text.strip('-')
+    return clean_text.strip('-')[:80]
+
+def load_dictionary():
+    core_tags = []
+    if os.path.exists(DICT_FILE):
+        with open(DICT_FILE, 'r', encoding='utf-8') as f:
+            for line in f:
+                match = re.search(r'-\s*`([^`]+)`', line)
+                if match:
+                    core_tags.append(match.group(1).strip())
+    return core_tags
 
 # ==========================================
 # STEP 1: EXTRACT MP3 URL
@@ -41,18 +60,19 @@ def get_podcast_mp3_url(apple_url):
     target_slug = unquote(match_slug.group(1)) if match_slug else None
 
     url_api = f"https://itunes.apple.com/lookup?id={podcast_id}&entity=podcast"
-    response_api = requests.get(url_api).json()
+    response_api = requests.get(url_api, headers=BROWSER_HEADERS).json()
     
     if not response_api['results']:
         raise ValueError("Podcast not found on iTunes.")
         
     url_rss = response_api['results'][0]['feedUrl']
-    response_rss = requests.get(url_rss)
+    response_rss = requests.get(url_rss, headers=BROWSER_HEADERS)
     root = ET.fromstring(response_rss.content)
     
     for item in root.findall('.//item'):
         title = item.find('title').text
-        if not title: continue
+        if not title:
+            continue
             
         if target_slug:
             clean_title = clean_for_match(title)
@@ -82,7 +102,7 @@ def download_mp3(mp3_url, output_filename="podcast.mp3", output_dir="Audio files
     
     print(f"📥 Downloading from: {mp3_url}")
     
-    with requests.get(mp3_url, stream=True) as r:
+    with requests.get(mp3_url, headers=BROWSER_HEADERS, stream=True) as r:
         r.raise_for_status()
         with open(file_path, 'wb') as f:
             for chunk in r.iter_content(chunk_size=8192):
@@ -103,7 +123,7 @@ def transcribe_audio(file_path, api_key=None):
     """
     key = api_key or os.environ.get("OPENAI_API_KEY")
     if not key:
-        raise ValueError("OpenAI API key is missing. Set the OPENAI_API_KEY environment variable.")
+        raise ValueError("OpenAI API key is missing. Set OPENAI_API_KEY in .env.")
     
     def call_whisper_api(chunk_path):
         url = "https://api.openai.com/v1/audio/transcriptions"
@@ -137,7 +157,10 @@ def transcribe_audio(file_path, api_key=None):
         text_part = call_whisper_api(chunk_name)
         full_transcript += text_part + " "
             
-        os.remove(chunk_name)
+        try:
+            os.remove(chunk_name)
+        except Exception:
+            pass
         
     print("✅ Transcription fully completed!")
     return full_transcript.strip()
@@ -147,16 +170,10 @@ def transcribe_audio(file_path, api_key=None):
 # STEP 4: SUMMARY & NOTE CREATION (OBSIDIAN)
 # ==========================================
 
-def generate_obsidian_note(transcript, podcast_title, original_url, api_key=None, output_dir=None):
-    """
-    Sends the transcript to OpenAI to generate a structured summary in Markdown format.
-    """
+def generate_obsidian_note(transcript, podcast_title, original_url, core_tags, api_key=None):
     key = api_key or os.environ.get("OPENAI_API_KEY")
     if not key:
-        raise ValueError("OpenAI API key is missing.")
-        
-    if output_dir is None:
-        output_dir = os.path.join(VAULT_PATH, "Knowledge")
+        raise ValueError("OpenAI API key is missing in .env.")
 
     print("🧠 AI is analyzing and summarizing the podcast (takes about 10-20 seconds)...")
     url = "https://api.openai.com/v1/chat/completions"
@@ -166,20 +183,24 @@ def generate_obsidian_note(transcript, podcast_title, original_url, api_key=None
     }
     
     safe_title = clean_for_filename(podcast_title)
-    current_date = datetime.now().strftime('%Y-%m-%d')
+    current_timestamp = datetime.now().strftime('%Y-%m-%dT%H:%M:%SZ')
     
     prompt = f"""
 You are an expert assistant tasked with extracting the core value from a podcast.
 Here is the complete transcript of a podcast titled "{podcast_title}".
 Create a clear, structured note ready to be integrated into the user's Obsidian "Second Brain".
 
-You MUST strictly follow this exact Markdown template, replacing the bracketed placeholders with your analysis:
+REQUIREMENTS:
+1. Select exactly 2 to 4 TOPIC TAGS. You MUST prioritize these tags from the Master Dictionary: {', '.join(core_tags)}. Do not use format tags like 'podcast', 'transcript'.
+2. Follow the exact Markdown template below.
 
 ---
 type: Transcript
+title: "{podcast_title}"
+description: "{{One-sentence summary of the podcast episode's core message}}"
 domain: Knowledge
-tags: [podcast, transcript]
-date_saved: {current_date}
+tags: [tag1, tag2]
+timestamp: {current_timestamp}
 ---
 
 # 🎙️ {podcast_title}
@@ -188,15 +209,12 @@ date_saved: {current_date}
 [Provide a punchy 3-line summary of the episode]
 
 ## 💡 Main Ideas
-[List the main ideas using this format:]
-- **[Idea Name]** : [Explanation]
+- **[Concept Name]** : [Explanation]
 
 ## ✍️ Memorable Quotes
-[List memorable quotes if applicable:]
 - "[Quote]"
 
 ## 🚀 Actions / Takeaways
-[List actionable takeaways:]
 - **[Action]** : [Explanation]
 
 ---
@@ -206,41 +224,49 @@ date_saved: {current_date}
 
 **Linked Concepts:** 
 [[Knowledge MOC]]
-
----
-Here is the transcript:
-{transcript}
 """
 
     data = {
-        "model": "gpt-4o-mini",
+        "model": "gpt-4o",
         "messages": [
-            {"role": "system", "content": "You are an expert in information synthesis."},
-            {"role": "user", "content": prompt}
+            {"role": "system", "content": "You are an expert in information synthesis. Output ONLY the raw markdown note without markdown code blocks."},
+            {"role": "user", "content": prompt + f"\n\nHere is the transcript:\n{transcript[:15000]}"}
         ],
-        "temperature": 0.7
+        "temperature": 0.4
     }
 
     response = requests.post(url, headers=headers, json=data)
     response.raise_for_status()
     note_content = response.json()["choices"][0]["message"]["content"]
+
+    if note_content.startswith("```markdown"):
+        note_content = note_content[11:]
+    if note_content.startswith("```"):
+        note_content = note_content[3:]
+    if note_content.endswith("```"):
+        note_content = note_content[:-3]
     
-    os.makedirs(output_dir, exist_ok=True)
-    file_path = os.path.join(output_dir, f"{safe_title}.md")
-    
-    with open(file_path, "w") as f:
-        f.write(note_content)
-        
-    print(f"📝 Obsidian note successfully created: {file_path}")
-    return file_path
+    return note_content.strip()
+
+
+def parse_tags_from_yaml(content):
+    yaml_match = re.search(r'^---\n(.*?)\n---', content, re.DOTALL)
+    if not yaml_match:
+        return []
+    tags_match = re.search(r'tags:\s*\[(.*?)\]', yaml_match.group(1))
+    if not tags_match:
+        return []
+    return [t.strip().strip('"').strip("'").lower() for t in tags_match.group(1).split(',') if t.strip()]
 
 
 # ==========================================
 # WORKFLOW EXECUTION
 # ==========================================
 if __name__ == "__main__":
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
     if len(sys.argv) < 2:
-        print("Usage: doppler run -- python3 podcast_workflow.py <APPLE_PODCAST_URL>")
+        print("Usage: python3 podcast_workflow.py <APPLE_PODCAST_URL>")
         sys.exit(1)
         
     target_url = sys.argv[1]
@@ -259,17 +285,36 @@ if __name__ == "__main__":
         full_transcript = transcribe_audio(mp3_path)
         
         print("\n--- Step 4: Saving Transcript & Generating Obsidian Note ---")
-        # Save transcript to attachments folder
-        os.makedirs("attachments", exist_ok=True)
-        transcript_path = os.path.join("attachments", f"{safe_title}.txt")
-        with open(transcript_path, "w") as f:
+        os.makedirs(ATTACHMENTS_DIR, exist_ok=True)
+        transcript_path = os.path.join(ATTACHMENTS_DIR, f"{safe_title}.txt")
+        with open(transcript_path, "w", encoding='utf-8') as f:
             f.write(full_transcript)
-        print("\n--- Step 4: Generating Obsidian Note ---")
-        note_path = generate_obsidian_note(full_transcript, title, target_url)
-        print(f"\n🎉 Workflow complete! Your note is ready at: {note_path}")
+            
+        core_tags = load_dictionary()
+        note_content = generate_obsidian_note(full_transcript, title, target_url, core_tags)
         
-        # Play a sound and show a desktop notification
-        os.system('osascript -e \'display notification "Podcast Workflow Complete! Your note is ready." with title "Podcast Automation" sound name "Glass"\'')
+        os.makedirs(KNOWLEDGE_DIR, exist_ok=True)
+        knowledge_file = os.path.join(KNOWLEDGE_DIR, f"{safe_title}.md")
+        with open(knowledge_file, "w", encoding='utf-8') as f:
+            f.write(note_content)
+        print(f"📝 Obsidian note successfully created: {knowledge_file}")
+
+        # Cross-linking
+        print("\n🔗 Step 5: Cross-linking with related notes...")
+        note_tags = parse_tags_from_yaml(note_content)
+        if note_tags:
+            matches = find_related_notes(note_tags, exclude_filename=safe_title)
+            if matches:
+                with open(knowledge_file, 'r', encoding='utf-8') as f:
+                    saved_content = f.read()
+                linked_content = inject_related_section(saved_content, matches)
+                with open(knowledge_file, 'w', encoding='utf-8') as f:
+                    f.write(linked_content)
+                print(f"✅ Linked to {len(matches)} related note(s).")
+            else:
+                print("ℹ️ No related notes found (need >= 2 shared tags).")
+
+        print(f"\n🎉 Workflow complete! Your note is ready at: {knowledge_file}")
 
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"❌ Error: {e}")

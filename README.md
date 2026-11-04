@@ -2,17 +2,22 @@
 
 Welcome to **NeuroVault**, the open-source foundation of an automated, AI-powered Second Brain built inside Obsidian.
 
-This repository provides the "Empty Vault" structure (Folders, MOCs, Templates, and Dataview scripts) as well as the Python automation scripts that power the workflows (Podcast summarization, YouTube extraction, and auto-tagging).
+This repository provides the "Empty Vault" structure (Folders, MOCs, Templates, and Dataview scripts) as well as the Python automation scripts that power the workflows (Podcast summarization, YouTube extraction, web scraping, raw text ingestion, auto-tagging, and automatic knowledge graph cross-linking).
 
 ## 🚀 Features
-- **Strict Taxonomy:** Pre-configured with a Master Tag Dictionary.
+- **Strict Taxonomy:** Pre-configured with a Master Tag Dictionary enforcing lowercase kebab-case and max 5 tags per note.
+- **Open Knowledge Format (OKF v0.1):** All generated notes use standardized YAML frontmatter (`title`, `description`, `timestamp`, `type`, `domain`, `tags`).
 - **Dynamic MOCs (Maps of Content):** Dashboards for Knowledge, Work, Ideas, etc., powered by Dataview.
+- **Auto Knowledge Graph Cross-Linking:** `cross_linker.py` connects notes sharing >= 2 tags via bidirectional `[[wikilinks]]` at ingestion time and in batch.
 - **AI Automations:** 
-  - `podcast_workflow.py`: Download Apple Podcasts, transcribe via Whisper, and generate a structured note.
-  - `youtube_workflow.py`: Extract YouTube transcripts and summarize them (no video download required).
+  - `podcast_workflow.py`: Download Apple Podcasts (with Cloudflare bypass headers), transcribe via Whisper, and generate a structured note.
+  - `youtube_workflow.py`: Extract YouTube transcripts, with automatic Whisper audio fallback via `yt-dlp` if captions are disabled.
+  - `url_workflow.py`: Scrape web articles and resources with `crawl4ai` and generate clean Markdown summaries.
   - `document_workflow.py`: Parse local `.pdf`, `.docx`, and `.pptx` documents into clean Markdown summaries using Microsoft's MarkItDown.
-  - `url_workflow.py`: Scrape web articles and summarize them into the vault.
+  - `text_workflow.py`: Ingest raw pasted text blocks, articles, or meeting notes directly into your vault.
+  - `archivist.py`: Universal router that automatically detects URLs, document files, or raw text and runs the right workflow.
   - `tag_audit.py`: Scan the vault to consolidate duplicate tags and enforce the Master Tag Dictionary.
+  - `cross_linker.py`: Scan and cross-link related notes across your entire vault.
 
 ---
 
@@ -20,9 +25,9 @@ This repository provides the "Empty Vault" structure (Folders, MOCs, Templates, 
 
 ### 1. Requirements
 - **Obsidian:** Download and install [Obsidian](https://obsidian.md/).
-- **Community Plugins:** You will need to install the `Dataview` plugin inside Obsidian and enable it.
-- **Python 3.9+:** Installed on your system.
-- **FFmpeg:** Required by `pydub` to manipulate audio files. (e.g., `brew install ffmpeg` on macOS).
+- **Community Plugins:** Install and enable the `Dataview` plugin inside Obsidian.
+- **Python 3.10+:** Installed on your system.
+- **FFmpeg:** Required by `pydub` to manipulate audio files (e.g., `brew install ffmpeg` on macOS).
 
 ### 2. Configure Your Vault
 1. Clone or download this repository to your local machine.
@@ -38,7 +43,7 @@ This repository provides the "Empty Vault" structure (Folders, MOCs, Templates, 
 5. Your personalized vault is now ready!
 
 ### 3. Configure the Python Automations
-To use the AI automations, you need to configure your environment variables.
+To use the AI automations, configure your environment variables:
 
 1. Navigate to the `scripts` folder in your terminal:
    ```bash
@@ -47,6 +52,7 @@ To use the AI automations, you need to configure your environment variables.
 2. Install the Python dependencies:
    ```bash
    pip install -r requirements.txt
+   playwright install chromium
    ```
 3. Copy the `.env.example` file to a new file named `.env`:
    ```bash
@@ -58,17 +64,33 @@ To use the AI automations, you need to configure your environment variables.
 
 ### 4. Running the Workflows
 
-You can run the archivist script to automatically detect the type of URL and run the correct workflow:
+You can run the universal archivist script to automatically detect the type of input:
 ```bash
+# Web article or resource
+python archivist.py "https://example.com/article"
+
+# YouTube video (with automatic Whisper fallback if no subtitles)
+python archivist.py "https://youtube.com/watch?v=..."
+
+# Apple Podcast
 python archivist.py "https://podcasts.apple.com/..."
+
+# Local Document (PDF, Word, PowerPoint)
+python archivist.py "/Users/yourname/Documents/Report.pdf"
+
+# Raw text snippet
+python archivist.py "Here is a note or article snippet I want to summarize..."
 ```
 
-Or run individual scripts:
+Or run individual scripts directly:
 ```bash
-python podcast_workflow.py "https://podcasts.apple.com/..."
+python url_workflow.py "https://example.com/article"
 python youtube_workflow.py "https://youtube.com/watch?v=..."
-python document_workflow.py "/Users/yourname/Desktop/Report.pdf"
+python podcast_workflow.py "https://podcasts.apple.com/..."
+python document_workflow.py "/path/to/document.pdf"
+python text_workflow.py "/path/to/raw_text.txt"
 python tag_audit.py
+python cross_linker.py
 ```
 
 ---
@@ -77,5 +99,3 @@ python tag_audit.py
 
 We are building a managed SaaS version of NeuroVault! 
 With the **NeuroVault Obsidian Plugin**, you can run all of these automations natively inside Obsidian with a single click—no Python, no terminal, and no OpenAI API key required.
-
-*(Link coming soon)*

@@ -1,7 +1,7 @@
 """
 maintain.py — One-command maintenance runner for NeuroVault DIY.
-Runs tag_audit.py (tag cleaning & consolidation) followed by cross_linker.py (knowledge graph linking).
-By default, both operate strictly on the Knowledge/ folder so personal notes remain untouched.
+Runs tag_audit.py (tag cleaning & consolidation) followed by cross_linker.py (knowledge graph linking)
+across all Markdown notes in your vault (excluding system, template, and attachment folders).
 """
 import os
 import sys
@@ -12,9 +12,9 @@ def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     os.chdir(base_dir)
 
-    flags = [arg for arg in sys.argv[1:] if arg in ("--dry-run", "--all")]
+    flags = [arg for arg in sys.argv[1:] if arg == "--dry-run"]
 
-    print("=== NeuroVault Knowledge Maintenance Started ===")
+    print("=== NeuroVault Vault Maintenance Started ===")
     print("\n--- Step 1: Tag Audit & Consolidation ---")
     res1 = subprocess.run([sys.executable, "tag_audit.py", *flags])
     if res1.returncode != 0:
@@ -27,7 +27,7 @@ def main():
         print("❌ Cross-linking failed.")
         sys.exit(res2.returncode)
 
-    print("\n=== NeuroVault Knowledge Maintenance Complete ===")
+    print("\n=== NeuroVault Vault Maintenance Complete ===")
 
 
 if __name__ == "__main__":

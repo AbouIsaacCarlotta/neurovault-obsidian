@@ -17,10 +17,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 VAULT_PATH = os.environ.get("VAULT_ABSOLUTE_PATH", "")
-KNOWLEDGE_DIR = os.path.join(VAULT_PATH, "Knowledge") if VAULT_PATH else ""
 RELATED_SECTION_HEADER = "## 🔗 Related Notes"
-EXCLUDED_DIRS = {".obsidian", "Attachments", "Templates", ".trash", ".git"}
-EXCLUDED_FILES = {"Tag Dictionary.md", "Task Dashboard.md", "Dashboard.md", "Knowledge MOC.md", "NeuroVault_ErrorLogs.md"}
+EXCLUDED_DIRS = {".obsidian", "Attachments", "Templates", ".trash", ".system_generated", ".git", "Archive"}
+EXCLUDED_FILES = {"Tag Dictionary.md", "Task Dashboard.md", "Dashboard.md", "NeuroVault_ErrorLogs.md"}
 
 
 def parse_note_metadata(filepath):
@@ -56,18 +55,16 @@ def parse_note_metadata(filepath):
     }
 
 
-def scan_vault(scan_all=False):
-    """Scan notes inside Knowledge/ by default (or entire vault if scan_all=True) and return metadata."""
+def scan_vault():
+    """Scan all notes across the entire vault (excluding system/attachment/template/MOC files) and return metadata."""
     notes = []
-    target_dir = VAULT_PATH if scan_all else KNOWLEDGE_DIR
-    if not target_dir or not os.path.exists(target_dir):
+    if not VAULT_PATH or not os.path.exists(VAULT_PATH):
         return notes
 
-    for root, dirs, files in os.walk(target_dir):
-        # Exclude hidden and non-note directories in-place
+    for root, dirs, files in os.walk(VAULT_PATH):
         dirs[:] = [d for d in dirs if not d.startswith('.') and d not in EXCLUDED_DIRS]
         for file in files:
-            if file.endswith(".md") and file not in EXCLUDED_FILES:
+            if file.endswith(".md") and file not in EXCLUDED_FILES and not file.endswith("MOC.md"):
                 meta = parse_note_metadata(os.path.join(root, file))
                 if meta and meta["tags"]:
                     notes.append(meta)
@@ -140,11 +137,10 @@ def inject_related_section(content, matches):
     return content.rstrip() + "\n\n" + section
 
 
-def batch_cross_link(min_shared=2, dry_run=False, scan_all=False):
-    """Scan Knowledge/ (or entire vault if scan_all=True) and establish bi-directional links between notes."""
-    scope_label = "entire vault" if scan_all else "Knowledge/"
-    print(f"🔍 Scanning {scope_label} for notes...")
-    notes = scan_vault(scan_all=scan_all)
+def batch_cross_link(min_shared=2, dry_run=False):
+    """Scan the entire vault and establish bi-directional links between notes."""
+    print("🔍 Scanning vault for notes...")
+    notes = scan_vault()
     print(f"   Found {len(notes)} notes with valid tags.")
 
     tag_to_notes = {}
@@ -201,5 +197,4 @@ def batch_cross_link(min_shared=2, dry_run=False, scan_all=False):
 
 if __name__ == "__main__":
     dry_run = "--dry-run" in sys.argv
-    scan_all = "--all" in sys.argv
-    batch_cross_link(dry_run=dry_run, scan_all=scan_all)
+    batch_cross_link(dry_run=dry_run)

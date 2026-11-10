@@ -9,11 +9,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 VAULT = os.environ.get("VAULT_ABSOLUTE_PATH", "")
-KNOWLEDGE_DIR = os.path.join(VAULT, "Knowledge") if VAULT else ""
 DICT_FILE = os.path.join(VAULT, "Tag Dictionary.md") if VAULT else ""
 
 BANNED_FORMAT_TAGS = {"podcast", "transcript", "article", "video", "book", "pdf", "resource"}
-EXCLUDED_FILES = {"Tag Dictionary.md", "Task Dashboard.md", "Dashboard.md", "Knowledge MOC.md", "NeuroVault_ErrorLogs.md"}
+EXCLUDED_DIRS = {".obsidian", "Attachments", "Templates", ".trash", ".system_generated", ".git", "Archive"}
+EXCLUDED_FILES = {"Tag Dictionary.md", "Task Dashboard.md", "Dashboard.md", "NeuroVault_ErrorLogs.md"}
 
 
 def normalize_tag(tag):
@@ -51,20 +51,16 @@ def load_dictionary():
     return core_tags, mappings
 
 
-def get_all_notes(scan_all=False):
-    """Return Markdown notes inside Knowledge/ by default (or entire vault if scan_all=True)."""
+def get_all_notes():
+    """Return all Markdown notes across the entire Vault (excluding system/attachment/template/MOC files)."""
     notes = []
     if not VAULT or not os.path.isdir(VAULT):
         return notes
 
-    target_dir = VAULT if scan_all else KNOWLEDGE_DIR
-    if not target_dir or not os.path.isdir(target_dir):
-        return notes
-
-    for root, dirs, files in os.walk(target_dir):
-        dirs[:] = [d for d in dirs if not d.startswith('.') and d not in ("Attachments", "Templates", ".trash")]
+    for root, dirs, files in os.walk(VAULT):
+        dirs[:] = [d for d in dirs if not d.startswith('.') and d not in EXCLUDED_DIRS]
         for file in files:
-            if file.endswith(".md") and file not in EXCLUDED_FILES:
+            if file.endswith(".md") and file not in EXCLUDED_FILES and not file.endswith("MOC.md"):
                 notes.append(os.path.join(root, file))
     return notes
 
@@ -153,21 +149,20 @@ Example: ["agentic-ai", "startups"]
         return []
 
 
-def main(dry_run=False, scan_all=False):
+def main(dry_run=False):
     if not VAULT or not os.path.isdir(VAULT):
         print("❌ VAULT_ABSOLUTE_PATH is missing or invalid in .env.")
         sys.exit(1)
 
-    scope_label = "entire vault" if scan_all else "Knowledge/"
-    print(f"🚀 Starting Tag Audit Job (scope: {scope_label})..." + (" [DRY RUN]" if dry_run else ""))
+    print("🚀 Starting Tag Audit Job (entire vault)..." + (" [DRY RUN]" if dry_run else ""))
     core_tags, mappings = load_dictionary()
     print(f"📚 Loaded Master Dictionary: {len(core_tags)} core tags, {len(mappings)} mappings.")
 
-    notes = get_all_notes(scan_all=scan_all)
-    print(f"📂 Found {len(notes)} note(s) in {scope_label}.")
+    notes = get_all_notes()
+    print(f"📂 Found {len(notes)} note(s) across the vault.")
     all_unknown_tags = []
 
-    print(f"🔍 Scanning {scope_label} for provisional tags...")
+    print("🔍 Scanning vault for provisional tags...")
     for path in notes:
         with open(path, 'r', encoding='utf-8') as f:
             content = f.read()
@@ -257,5 +252,4 @@ def main(dry_run=False, scan_all=False):
 
 if __name__ == "__main__":
     dry_run = "--dry-run" in sys.argv
-    scan_all = "--all" in sys.argv
-    main(dry_run=dry_run, scan_all=scan_all)
+    main(dry_run=dry_run)

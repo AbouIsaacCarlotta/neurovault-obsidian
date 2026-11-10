@@ -16,8 +16,9 @@ This repository provides the "Empty Vault" structure (Folders, MOCs, Templates, 
   - `document_workflow.py`: Parse local `.pdf`, `.docx`, and `.pptx` documents into clean Markdown summaries using Microsoft's MarkItDown.
   - `text_workflow.py`: Ingest raw pasted text blocks, articles, or meeting notes directly into your vault.
   - `archivist.py`: Universal router that automatically detects URLs, document files, or raw text and runs the right workflow.
-  - `tag_audit.py`: Scan the vault to consolidate duplicate tags and enforce the Master Tag Dictionary.
-  - `cross_linker.py`: Scan and cross-link related notes across your entire vault.
+  - `tag_audit.py`: Clean, normalize, graduate, and consolidate tags in `Knowledge/` against the Master Tag Dictionary (never touches personal folders unless `--all` is passed).
+  - `cross_linker.py`: Scan and bi-directionally cross-link related notes inside `Knowledge/`.
+  - `maintain.py`: One-command maintenance runner combining `tag_audit.py` + `cross_linker.py` (supports `--dry-run` and `--all`).
 
 ---
 
@@ -91,6 +92,8 @@ python document_workflow.py "/path/to/document.pdf"
 python text_workflow.py "/path/to/raw_text.txt"
 python tag_audit.py
 python cross_linker.py
+python maintain.py            # Run tag cleaning + cross-linking on Knowledge/
+python maintain.py --dry-run  # Preview changes without modifying files
 ```
 
 ---

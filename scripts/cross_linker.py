@@ -17,9 +17,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 VAULT_PATH = os.environ.get("VAULT_ABSOLUTE_PATH", "")
+KNOWLEDGE_DIR = os.path.join(VAULT_PATH, "Knowledge") if VAULT_PATH else ""
 RELATED_SECTION_HEADER = "## 🔗 Related Notes"
 EXCLUDED_DIRS = {".obsidian", "Attachments", "Templates", ".trash", ".git"}
-EXCLUDED_FILES = {"Tag Dictionary.md", "Task Dashboard.md", "Dashboard.md"}
+EXCLUDED_FILES = {"Tag Dictionary.md", "Task Dashboard.md", "Dashboard.md", "Knowledge MOC.md", "NeuroVault_ErrorLogs.md"}
 
 
 def parse_note_metadata(filepath):
@@ -55,13 +56,14 @@ def parse_note_metadata(filepath):
     }
 
 
-def scan_vault():
-    """Scan all notes in the vault and return their metadata."""
+def scan_vault(scan_all=False):
+    """Scan notes inside Knowledge/ by default (or entire vault if scan_all=True) and return metadata."""
     notes = []
-    if not VAULT_PATH or not os.path.exists(VAULT_PATH):
+    target_dir = VAULT_PATH if scan_all else KNOWLEDGE_DIR
+    if not target_dir or not os.path.exists(target_dir):
         return notes
 
-    for root, dirs, files in os.walk(VAULT_PATH):
+    for root, dirs, files in os.walk(target_dir):
         # Exclude hidden and non-note directories in-place
         dirs[:] = [d for d in dirs if not d.startswith('.') and d not in EXCLUDED_DIRS]
         for file in files:
@@ -138,10 +140,11 @@ def inject_related_section(content, matches):
     return content.rstrip() + "\n\n" + section
 
 
-def batch_cross_link(min_shared=2, dry_run=False):
-    """Scan the entire vault and establish bi-directional links between notes."""
-    print("🔍 Scanning vault for notes...")
-    notes = scan_vault()
+def batch_cross_link(min_shared=2, dry_run=False, scan_all=False):
+    """Scan Knowledge/ (or entire vault if scan_all=True) and establish bi-directional links between notes."""
+    scope_label = "entire vault" if scan_all else "Knowledge/"
+    print(f"🔍 Scanning {scope_label} for notes...")
+    notes = scan_vault(scan_all=scan_all)
     print(f"   Found {len(notes)} notes with valid tags.")
 
     tag_to_notes = {}
@@ -198,4 +201,5 @@ def batch_cross_link(min_shared=2, dry_run=False):
 
 if __name__ == "__main__":
     dry_run = "--dry-run" in sys.argv
-    batch_cross_link(dry_run=dry_run)
+    scan_all = "--all" in sys.argv
+    batch_cross_link(dry_run=dry_run, scan_all=scan_all)

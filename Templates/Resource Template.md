@@ -15,6 +15,3 @@ date_saved: {{date}}
 
 ## 🔗 Links
 - [URL]
-
-**Linked Concepts:** 
-[[Knowledge MOC]]

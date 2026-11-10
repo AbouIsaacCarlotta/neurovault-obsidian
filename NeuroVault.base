@@ -1,0 +1,41 @@
+filters:
+  and:
+    - file.ext == "md"
+    - '!file.inFolder("Templates")'
+    - '!file.inFolder("Attachments")'
+    - 'file.name != "Dashboard.md"'
+    - 'file.name != "Tag Dictionary.md"'
+    - 'file.name != "Task Dashboard.md"'
+
+properties:
+  title:
+    displayName: Title
+  type:
+    displayName: Type
+  tags:
+    displayName: Tags
+  timestamp:
+    displayName: Added
+  description:
+    displayName: Summary
+
+views:
+  - type: table
+    name: "All Notes"
+    order:
+      - file.name
+      - type
+      - tags
+      - timestamp
+  - type: cards
+    name: "Library Cards"
+    filters:
+      or:
+        - 'type == "Article"'
+        - 'type == "Resource"'
+        - 'type == "Transcript"'
+    order:
+      - title
+      - type
+      - tags
+      - description

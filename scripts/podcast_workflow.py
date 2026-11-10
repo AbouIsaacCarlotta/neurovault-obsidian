@@ -221,9 +221,6 @@ timestamp: {current_timestamp}
 **🔗 Links & Appendix:**
 - 📄 Full Transcript : [[{safe_title}.txt]]
 - 🎧 Original Link : {original_url}
-
-**Linked Concepts:** 
-[[Knowledge MOC]]
 """
 
     data = {

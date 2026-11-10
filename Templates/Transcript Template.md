@@ -25,6 +25,3 @@ date_saved: {{date}}
 **🔗 Links & Appendix:**
 - 📄 Full Transcript : [[filename.txt]]
 - 🎧 Original Link : [URL]
-
-**Linked Concepts:** 
-[[Knowledge MOC]]

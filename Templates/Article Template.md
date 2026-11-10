@@ -19,6 +19,3 @@ date_saved: {{date}}
 
 **Conclusion:** 
 [Conclusion]
-
-**Linked Concepts:** 
-[[Knowledge MOC]]

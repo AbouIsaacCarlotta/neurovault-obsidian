@@ -70,9 +70,6 @@ timestamp: {current_timestamp}
 ---
 **🔗 Links & Appendix:**
 - 📝 Source: Raw text (pasted directly)
-
-**Linked Concepts:** 
-[[Knowledge MOC]]
 """
 
     print("🧠 OpenAI is reading the text and generating the note...")

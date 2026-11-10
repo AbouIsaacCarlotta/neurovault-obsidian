@@ -94,9 +94,6 @@ timestamp: {current_timestamp}
 **🔗 Links & Appendix:**
 - 📺 Original Video : {url}
 - 📜 Raw Transcript : [[{clean_for_filename(title)}-raw-transcript]]
-
-**Linked Concepts:** 
-[[Knowledge MOC]]
 """
 
     print("🧠 OpenAI is reading the transcript and generating the note...")

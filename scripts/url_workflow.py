@@ -73,9 +73,6 @@ timestamp: {current_timestamp}
 ---
 **🔗 Links & Appendix:**
 - 🌐 Original Link : {url}
-
-**Linked Concepts:** 
-[[Knowledge MOC]]
 """
 
     print("🧠 OpenAI is reading the article and generating the note...")

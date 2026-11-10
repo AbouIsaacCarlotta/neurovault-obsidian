@@ -18,6 +18,3 @@ date_created: {{date}}
 
 ## 📓 Notes
 [Any context or scratchpad notes for this project]
-
-**Linked Concepts:** 
-[[Projects MOC]]

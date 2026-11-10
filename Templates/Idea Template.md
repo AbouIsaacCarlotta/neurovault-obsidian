@@ -16,6 +16,3 @@ date_created: {{date}}
 
 ## 🚀 Next Steps / Promotion
 - [ ] 
-
-**Linked Concepts:** 
-[[Ideas MOC]]

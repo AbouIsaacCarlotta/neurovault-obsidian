@@ -73,9 +73,6 @@ timestamp: {current_timestamp}
 **🔗 Links & Appendix:**
 - 📁 Source File : [[{filename}]]
 - 📜 Raw Text : [[{clean_for_filename(filename)}-raw-text]]
-
-**Linked Concepts:** 
-[[Knowledge MOC]]
 """
 
     print("🧠 OpenAI is reading the document and generating the note...")

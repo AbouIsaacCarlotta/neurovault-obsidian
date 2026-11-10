@@ -30,6 +30,3 @@ En tant que \[persona\], je veux \[action\] pour \[bénéfice\].
 
 ## 🎨 Inspiration UI (optionnel)
 - Screenshot ou lien vers app similaire
-
-**Linked Concepts:** 
-[[Projects MOC]]

@@ -2,12 +2,12 @@
 
 Welcome to **NeuroVault**, the open-source foundation of an automated, AI-powered Second Brain built inside Obsidian.
 
-This repository provides the "Empty Vault" structure (Folders, MOCs, Templates, and Dataview scripts) as well as the Python automation scripts that power the workflows (Podcast summarization, YouTube extraction, web scraping, raw text ingestion, auto-tagging, and automatic knowledge graph cross-linking).
+This repository provides a clean Obsidian vault structure (Folders, Templates, and a native **Obsidian Bases** dashboard) as well as the Python automation scripts that power the workflows (Podcast summarization, YouTube extraction, web scraping, raw text ingestion, auto-tagging, and automatic knowledge graph cross-linking).
 
 ## 🚀 Features
+- **Zero Third-Party Plugins Required:** Powered natively by **Obsidian Bases** (`NeuroVault.base` + `Dashboard.md`) — no Dataview or community plugins needed.
 - **Strict Taxonomy:** Pre-configured with a Master Tag Dictionary enforcing lowercase kebab-case and max 5 tags per note.
 - **Open Knowledge Format (OKF v0.1):** All generated notes use standardized YAML frontmatter (`title`, `description`, `timestamp`, `type`, `domain`, `tags`).
-- **Dynamic MOCs (Maps of Content):** Dashboards for Knowledge, Work, Ideas, etc., powered by Dataview.
 - **Auto Knowledge Graph Cross-Linking:** `cross_linker.py` connects notes sharing >= 2 tags via bidirectional `[[wikilinks]]` at ingestion time and in batch.
 - **AI Automations:** 
   - `podcast_workflow.py`: Download Apple Podcasts (with Cloudflare bypass headers), transcribe via Whisper, and generate a structured note.
@@ -25,8 +25,7 @@ This repository provides the "Empty Vault" structure (Folders, MOCs, Templates, 
 ## 🛠️ Setup Instructions (Tier 1 - Self-Hosted)
 
 ### 1. Requirements
-- **Obsidian:** Download and install [Obsidian](https://obsidian.md/).
-- **Community Plugins:** Install and enable the `Dataview` plugin inside Obsidian.
+- **Obsidian:** Download and install [Obsidian](https://obsidian.md/) (enable the built-in **Bases** core plugin — enabled by default).
 - **Python 3.10+:** Installed on your system.
 - **FFmpeg:** Required by `pydub` to manipulate audio files (e.g., `brew install ffmpeg` on macOS).
 
@@ -36,7 +35,7 @@ This repository provides the "Empty Vault" structure (Folders, MOCs, Templates, 
    ```bash
    cd neurovault-obsidian/scripts
    ```
-3. Run the interactive Setup Wizard to personalize your vault (it will generate your MOCs and Tag Dictionary):
+3. Run the interactive Setup Wizard to personalize your vault (it will create your folders and `Tag Dictionary.md`):
    ```bash
    python setup_vault.py
    ```

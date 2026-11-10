@@ -43,7 +43,3 @@ date_created: {{date}}
 
 > [!danger] Work-life alignment
 > _Did you sacrifice sleep, health, or family? Hard boundary to set for next week?_
-
----
-**Linked Concepts:**
-[[Work MOC]] | [[Personal MOC]]

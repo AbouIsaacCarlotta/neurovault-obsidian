@@ -61,6 +61,7 @@ To use the AI automations, configure your environment variables:
 4. Open `.env` and fill in your details:
    - `OPENAI_API_KEY`: Your OpenAI API key.
    - `VAULT_ABSOLUTE_PATH`: The absolute path to this vault on your computer (e.g., `/Users/yourname/Documents/neurovault-obsidian`).
+   - `DESTINATION_FOLDER`: Folder where generated notes are saved (default: `Knowledge`; leave blank for vault root).
 
 ### 4. Running the Workflows
 

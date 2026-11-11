@@ -13,7 +13,8 @@ load_dotenv()
 
 VAULT_PATH = os.environ.get("VAULT_ABSOLUTE_PATH", "")
 DICT_FILE = os.path.join(VAULT_PATH, "Tag Dictionary.md")
-OUTPUT_DIR = os.path.join(VAULT_PATH, "Knowledge")
+DEST_FOLDER = os.environ.get("DESTINATION_FOLDER", "Knowledge").strip("/")
+OUTPUT_DIR = os.path.join(VAULT_PATH, DEST_FOLDER) if DEST_FOLDER else VAULT_PATH
 
 def clean_for_filename(text):
     clean_text = re.sub(r'[^a-zA-Z0-9]+', '-', text.lower())
